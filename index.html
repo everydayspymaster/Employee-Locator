@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <script src="Js.js"></script>
+    <script src="js.js"></script>
     <script>
         // JavaScript for sharing admin URL
         function shareAdminUrl() {
@@ -52,10 +52,13 @@
             copyToClipboard(adminUrl);
             alert('Admin URL copied to clipboard!');
         }
+
         function generateAdminUrl() {
+            const baseUrl = 'https://everydayspymaster.github.io/Employee-Locator/';
             const timestamp = Date.now();
-            return `return window.location.href;
+            return `${baseUrl}?timestamp=${timestamp}`;
         }
+
         function copyToClipboard(text) {
             const dummyElement = document.createElement('textarea');
             dummyElement.value = text;
@@ -67,6 +70,7 @@
             document.execCommand('copy');
             document.body.removeChild(dummyElement);
         }
+
         // Wait for the DOM to be fully loaded before attaching event listeners
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM fully loaded');
@@ -77,6 +81,7 @@
             } else {
                 console.error('Share URL button not found');
             }
+
             // Call the init function from script.js if it exists
             if (typeof window.initEmployeeLocator === 'function') {
                 console.log('Calling initEmployeeLocator');
