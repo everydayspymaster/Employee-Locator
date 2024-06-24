@@ -51,10 +51,12 @@
             copyToClipboard(adminUrl);
             alert('Admin URL copied to clipboard!');
         }
+        
         function generateAdminUrl() {
             const timestamp = Date.now();
             return `${window.location.href.split('?')[0]}?v=${timestamp}`;
         }
+        
         function copyToClipboard(text) {
             const dummyElement = document.createElement('textarea');
             dummyElement.value = text;
@@ -66,9 +68,18 @@
             document.execCommand('copy');
             document.body.removeChild(dummyElement);
         }
+        
+        // Dummy function for demonstration (replace with actual initialization logic)
+        function initEmployeeLocator() {
+            // Example: Populate employee list
+            const employeeList = document.getElementById('employeeList');
+            employeeList.innerHTML = '<p>Employee 1</p><p>Employee 2</p>'; // Replace with actual data
+        }
+        
         // Wait for the DOM to be fully loaded before attaching event listeners
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM fully loaded');
+            
             const shareUrlBtn = document.getElementById('shareUrlBtn');
             if (shareUrlBtn) {
                 shareUrlBtn.addEventListener('click', shareAdminUrl);
@@ -76,13 +87,9 @@
             } else {
                 console.error('Share URL button not found');
             }
-            // Call the init function from script.js if it exists
-            if (typeof window.initEmployeeLocator === 'function') {
-                console.log('Calling initEmployeeLocator');
-                window.initEmployeeLocator();
-            } else {
-                console.error('initEmployeeLocator function not found. Make sure script.js is loaded correctly.');
-            }
+            
+            // Example: Call initialization function
+            initEmployeeLocator();
         });
     </script>
 </body>
