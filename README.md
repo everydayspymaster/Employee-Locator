@@ -1,1 +1,1 @@
-Easy-to-use Employee Locator. First, add the status than add employees.
+Easy-to-use Employee Locator. First, add the status then add employees.
