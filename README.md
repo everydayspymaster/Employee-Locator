@@ -1,1 +1,1 @@
-Simple easy and free to use Employee Locator. First add status then add employees
+Easy-to-use Employee Locator. First, add the status than add employees.
