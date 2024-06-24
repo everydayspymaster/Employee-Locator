@@ -7,6 +7,7 @@ let appState = {
 // Main initialization function
 function init() {
     setupEventListeners();
+    restoreFromLocalStorage(); // Check for saved data
     updateStatusList();
     renderEmployees();
     setupColorPickers();
@@ -35,6 +36,19 @@ function setupColorPickers() {
     });
 }
 
+// Save data to Local Storage
+function saveToLocalStorage() {
+    localStorage.setItem('employeeLocatorAppState', JSON.stringify(appState));
+}
+
+// Restore data from Local Storage
+function restoreFromLocalStorage() {
+    const storedState = localStorage.getItem('employeeLocatorAppState');
+    if (storedState) {
+        appState = JSON.parse(storedState);
+    }
+}
+
 // Add a new employee
 function addEmployee() {
     const nameInput = document.getElementById('newEmployeeName');
@@ -42,6 +56,7 @@ function addEmployee() {
     if (name) {
         appState.employees.push({ name, status: appState.statuses.length > 0 ? appState.statuses[0].name : '' });
         nameInput.value = '';
+        saveToLocalStorage(); // Save data after modification
         renderEmployees();
         const lastEmployee = document.querySelector('.employee-item:last-child');
         if (lastEmployee) {
@@ -61,6 +76,7 @@ function addStatus() {
     if (name && color) {
         appState.statuses.push({ name, color });
         nameInput.value = '';
+        saveToLocalStorage(); // Save data after modification
         updateStatusList();
         renderEmployees();
         const lastStatus = document.querySelector('.status-item:last-child');
@@ -77,6 +93,7 @@ function addStatus() {
 // Update an employee's status
 function updateEmployeeStatus(index, newStatus) {
     appState.employees[index].status = newStatus;
+    saveToLocalStorage(); // Save data after modification
     renderEmployees();
 }
 
@@ -128,6 +145,7 @@ function editEmployee(index) {
     const newName = prompt('Enter new name for employee:', appState.employees[index].name);
     if (newName !== null && newName.trim() !== '') {
         appState.employees[index].name = newName.trim();
+        saveToLocalStorage(); // Save data after modification
         renderEmployees();
     }
 }
@@ -136,6 +154,7 @@ function editEmployee(index) {
 function deleteEmployee(index) {
     if (confirm(`Are you sure you want to delete ${appState.employees[index].name}?`)) {
         appState.employees.splice(index, 1);
+        saveToLocalStorage(); // Save data after modification
         renderEmployees();
     }
 }
@@ -177,6 +196,7 @@ function editStatus(index) {
     const newName = prompt('Enter new name for status:', appState.statuses[index].name);
     if (newName !== null && newName.trim() !== '') {
         appState.statuses[index].name = newName.trim();
+        saveToLocalStorage(); // Save data after modification
         updateStatusList();
         renderEmployees();
     }
@@ -190,6 +210,7 @@ function editStatusColor(index) {
 
     colorPicker.addEventListener('input', function() {
         appState.statuses[index].color = this.value;
+        saveToLocalStorage(); // Save data after modification
         updateStatusList();
         renderEmployees();
     });
@@ -206,6 +227,7 @@ function editStatusColor(index) {
 function deleteStatus(index) {
     if (confirm(`Are you sure you want to delete ${appState.statuses[index].name}?`)) {
         appState.statuses.splice(index, 1);
+        saveToLocalStorage(); // Save data after modification
         updateStatusList();
         renderEmployees();
     }
@@ -227,4 +249,3 @@ function showError(input, message) {
 
 // Wait for the DOM to be fully loaded before initializing
 document.addEventListener('DOMContentLoaded', init);
-
