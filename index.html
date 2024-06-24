@@ -44,7 +44,6 @@
             </div>
         </div>
     </div>
-    <script src="Js.js"></script>
     <script>
         // JavaScript for sharing admin URL
         function shareAdminUrl() {
@@ -54,7 +53,7 @@
         }
         function generateAdminUrl() {
             const timestamp = Date.now();
-            return window.location.href;
+            return `${window.location.href.split('?')[0]}?v=${timestamp}`;
         }
         function copyToClipboard(text) {
             const dummyElement = document.createElement('textarea');
