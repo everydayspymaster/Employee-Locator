@@ -11,6 +11,7 @@ function init() {
     updateStatusList();
     renderEmployees();
     setupColorPickers();
+    checkExpiration(); // Check if URL has expired
 }
 
 // Set up event listeners for buttons
@@ -47,6 +48,52 @@ function restoreFromLocalStorage() {
     if (storedState) {
         appState = JSON.parse(storedState);
     }
+}
+
+// Check if URL has expired
+function checkExpiration() {
+    const expirationTimestamp = localStorage.getItem('adminUrlExpiration');
+    if (expirationTimestamp) {
+        const now = Date.now();
+        if (now > parseInt(expirationTimestamp, 10)) {
+            // URL has expired, clear app state and localStorage
+            localStorage.removeItem('employeeLocatorAppState');
+            localStorage.removeItem('adminUrlExpiration');
+            appState = {
+                employees: [],
+                statuses: []
+            };
+            alert('The shared URL has expired. Please request a new one.');
+            location.href = 'https://everydayspymaster.github.io/Employee-Locator/'; // Redirect to home page or appropriate URL
+        }
+    }
+}
+
+// Generate and copy admin URL
+function shareAdminUrl() {
+    const adminUrl = generateAdminUrl();
+    copyToClipboard(adminUrl);
+    alert('Admin URL copied to clipboard!');
+}
+
+// Generate admin URL with expiration
+function generateAdminUrl() {
+    const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
+    localStorage.setItem('adminUrlExpiration', expirationTime.toString());
+    return window.location.href;
+}
+
+// Copy text to clipboard
+function copyToClipboard(text) {
+    const dummyElement = document.createElement('textarea');
+    dummyElement.value = text;
+    dummyElement.setAttribute('readonly', '');
+    dummyElement.style.position = 'absolute';
+    dummyElement.style.left = '-9999px';
+    document.body.appendChild(dummyElement);
+    dummyElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyElement);
 }
 
 // Add a new employee
