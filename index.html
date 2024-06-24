@@ -44,6 +44,7 @@
             </div>
         </div>
     </div>
+    <script src="Js.js"></script>
     <script>
         // JavaScript for sharing admin URL
         function shareAdminUrl() {
@@ -69,13 +70,6 @@
             document.body.removeChild(dummyElement);
         }
         
-        // Dummy function for demonstration (replace with actual initialization logic)
-        function initEmployeeLocator() {
-            // Example: Populate employee list
-            const employeeList = document.getElementById('employeeList');
-            employeeList.innerHTML = '<p>Employee 1</p><p>Employee 2</p>'; // Replace with actual data
-        }
-        
         // Wait for the DOM to be fully loaded before attaching event listeners
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM fully loaded');
@@ -88,8 +82,51 @@
                 console.error('Share URL button not found');
             }
             
-            // Example: Call initialization function
-            initEmployeeLocator();
+            // Call the init function from script.js if it exists
+            if (typeof window.initEmployeeLocator === 'function') {
+                console.log('Calling initEmployeeLocator');
+                window.initEmployeeLocator();
+            } else {
+                console.error('initEmployeeLocator function not found. Make sure script.js is loaded correctly.');
+            }
+            
+            // Example: Add employee functionality
+            const addEmployeeBtn = document.getElementById('addEmployeeBtn');
+            if (addEmployeeBtn) {
+                addEmployeeBtn.addEventListener('click', function() {
+                    const newEmployeeName = document.getElementById('newEmployeeName').value;
+                    if (newEmployeeName.trim() !== '') {
+                        const employeeList = document.getElementById('employeeList');
+                        const newEmployeeElement = document.createElement('p');
+                        newEmployeeElement.textContent = newEmployeeName;
+                        employeeList.appendChild(newEmployeeElement);
+                        document.getElementById('newEmployeeName').value = '';
+                    }
+                });
+                console.log('Add Employee button listener added');
+            } else {
+                console.error('Add Employee button not found');
+            }
+            
+            // Example: Add status functionality
+            const addStatusBtn = document.getElementById('addStatusBtn');
+            if (addStatusBtn) {
+                addStatusBtn.addEventListener('click', function() {
+                    const newStatusName = document.getElementById('newStatusName').value;
+                    const newStatusColor = document.getElementById('newStatusColor').value;
+                    if (newStatusName.trim() !== '') {
+                        const statusList = document.getElementById('statusList');
+                        const newStatusElement = document.createElement('div');
+                        newStatusElement.style.backgroundColor = newStatusColor;
+                        newStatusElement.textContent = newStatusName;
+                        statusList.appendChild(newStatusElement);
+                        document.getElementById('newStatusName').value = '';
+                    }
+                });
+                console.log('Add Status button listener added');
+            } else {
+                console.error('Add Status button not found');
+            }
         });
     </script>
 </body>
